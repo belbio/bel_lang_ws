@@ -1,3 +1,4 @@
+{{ $_hugo_config := `{ "version": 1 }` }}
 {{ $showhidden := .Get "showhidden"}}
 {{ $style :=  .Get "style" | default "li" }}
 {{ $depth :=  .Get "depth" | default 1 }}
@@ -16,7 +17,7 @@
 			{{ .Scratch.Set "pages" (.Page.Pages | union .Page.Sections) }}
 		{{end}}
 	{{end}}
-	
+
 	{{ $pages := (.Scratch.Get "pages") }}
 
 	{{if eq $sortTerm "Weight"}}
@@ -34,11 +35,9 @@
 	{{end}}
 </ul>
 
-{{.Inner|safeHTML}}
-
 {{ define "childs" }}
 	{{ range .menu }}
-		{{ if and .Params.hidden (not $.showhidden) }} 
+		{{ if and .Params.hidden (not $.showhidden) }}
 		{{else}}
 			{{if not .IsHome}}
 				{{if hasPrefix $.style "h"}}
@@ -46,12 +45,12 @@
 					{{$numn := add $num $.count }}
 
 {{(printf "<h%d>" $numn)|safeHTML}}
-<a href="{{.URL}}" >{{ .Title }}</a>
+<a href="{{.RelPermalink}}" >{{ .Title }}</a>
 {{(printf "</h%d>" $numn)|safeHTML}}
 
 				{{else}}
 {{(printf "<%s>" $.style)|safeHTML}}
-<a href="{{.URL}}" >{{ .Title }}</a>
+<a href="{{.RelPermalink}}" >{{ .Title }}</a>
 {{(printf "</%s>" $.style)|safeHTML}}
 				{{end}}
 
@@ -74,7 +73,7 @@
 				{{else}}
 					{{ .Scratch.Set "pages" .Pages }}
 				{{end}}
-				
+
 				{{ $pages := (.Scratch.Get "pages") }}
 
 				{{if eq $.sortTerm "Weight"}}
